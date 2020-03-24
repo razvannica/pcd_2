@@ -14,7 +14,7 @@ async def notify_users():
 
 async def register(websocket):
         users.add(websocket)
-        await notify_users()
+        #await notify_users()
 
 
 async def unregister(websocket):
@@ -26,9 +26,8 @@ async def unregister(websocket):
 async def handle(websocket, path):
         await register(websocket)
         async for message in websocket:
-                #client_message = await websocket.recv()
                 print("Message from client : ", message)
-                await websocket.send("I can confirm I got your message!")
+                await websocket.send(message)
 
         await unregister(websocket)
 

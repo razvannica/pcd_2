@@ -6,10 +6,16 @@ import websockets
 users = set()
 
 
+# notifica userii ca un user a intrat sau a iesit din aplicatie
+# trebuie sa mai lucrez la functia asta
 async def notify_users():
         if users:
-                message = json.dumps({"type": "users", "count": len(users)})
+                message = "New user connected"
                 await asyncio.wait([user.send(message) for user in users])
+
+
+async def send_users_message(message):
+        await asyncio.wait([user.send(message) for user in users])
 
 
 async def register(websocket):
@@ -26,8 +32,14 @@ async def unregister(websocket):
 async def handle(websocket, path):
         await register(websocket)
         async for message in websocket:
-                print("Message from client : ", message)
-                await websocket.send(message)
+                data = json.loads(message)
+                if data["user"] is not None and data["mess"] is None:
+                        print("User connected :  ", data["user"])
+                        await send_users_message("User " + data["user"] + " now connected.")
+
+                if data["mess"] is not None:
+                        print("Message from " + data["user"] + ":" + data["mess"])
+                        await send_users_message("Message from " + data["user"] + " : " + data["mess"])
 
         await unregister(websocket)
 

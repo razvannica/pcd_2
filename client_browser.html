@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="jquery-3.4.1.min.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -18,29 +19,32 @@
       <button id="send_message" class="vertical-align" type="button" onclick="sendMessage()">Send</button>
 </section>
 
-<label>
-    <input type="text" id="response" value="Responses">
-</label>
-
+<section id="chatroom">
+      <section id="feedback"></section>
+</section>
 
     <script>
       var websocket = new WebSocket("ws://localhost:1234");
+      var chatroom = $("#chatroom");
+      //var feedback = $("#feedback");
+
 
       function sendMessage() {
           var message = document.getElementById("message").value;
-          websocket.send(message);
+          var username = document.getElementById("username").value;
+          websocket.send(JSON.stringify({mess: message, user: username}));
+
       }
 
-      //modificat sa se faca diferenta intre username si mesaj
       function sendUsername(){
             var username = document.getElementById("username").value;
-            websocket.send(username);
+            websocket.send(JSON.stringify({user : username, mess: null}));
       }
 
       websocket.onmessage = function (event) {
             data = event.data;
-            document.getElementById("response").value = data;
-            alert(data);
+            //feedback.html('');
+            chatroom.append("<p class='message'>" + data + "</p>")
       }
 
     </script>

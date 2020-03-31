@@ -3,7 +3,7 @@ from google.cloud import pubsub
 import os
 import json
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'pcd2-272020-b57077d4cf02.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'key.json'
 
 app = Flask(__name__)
 

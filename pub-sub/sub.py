@@ -2,7 +2,7 @@ from google.cloud import pubsub
 import time
 import os
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'pcd2-272020-b57077d4cf02.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'key.json'
 proj_name = 'pcd2-272020'
 sub_name = 'test'
 

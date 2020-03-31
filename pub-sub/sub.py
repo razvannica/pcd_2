@@ -1,0 +1,31 @@
+from google.cloud import pubsub
+import time
+import os
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'pcd2-272020-b57077d4cf02.json'
+proj_name = 'pcd2-272020'
+sub_name = 'test'
+
+
+def callback(message):
+    print('Received message: {}'.format(message.data.decode("utf-8")))
+    if message.attributes:
+        print('Attributes:')
+        for key in message.attributes:
+            value = message.attributes.get(key)
+            print('{}: {}'.format(key, value))
+    message.ack()
+
+
+def sub_pull():
+    subscriber = pubsub.SubscriberClient()
+    subscription_path = subscriber.subscription_path(
+        proj_name, sub_name)
+    subscriber.subscribe(subscription_path, callback=callback)
+    print('Listening for messages on: {}'.format(subscription_path))
+    while True:
+        time.sleep(30)
+
+
+if __name__ == "__main__":
+    sub_pull()

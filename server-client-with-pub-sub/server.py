@@ -15,13 +15,11 @@ async def send_message(message):
 
 async def register(websocket):
     users.add(websocket)
-    # await notify_users()
 
 
 async def unregister(websocket):
     users.remove(websocket)
     print("Client removed")
-    # await notify_users()
 
 
 async def handle(websocket, path):
@@ -31,12 +29,10 @@ async def handle(websocket, path):
         if data["user"] is not None and data["mess"] is None:
             print("User connected :  ", data["user"])
             await send_message("User " + data["user"] + " now connected.")
-            # await send_users_message("User " + data["user"] + " now connected.")
 
         if data["mess"] is not None:
             print("Message from " + data["user"] + ":" + data["mess"])
             await send_message("Message from " + data["user"] + " : " + data["mess"])
-            # await send_users_message("Message from " + data["user"] + " : " + data["mess"])
 
     await unregister(websocket)
 

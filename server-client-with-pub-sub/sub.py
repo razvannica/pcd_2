@@ -26,7 +26,7 @@ def callback(message):
 
 def get_messages():
     import glob
-    files = glob.glob("temp/*")
+    files = glob.glob("temp/*.txt")
     messages = []
     for file in files:
         f = open(file, "r")

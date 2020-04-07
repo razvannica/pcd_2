@@ -13,19 +13,6 @@ async def send_message(message):
     if res.ok:
         return res.json()
 
-
-# notifica userii ca un user a intrat sau a iesit din aplicatie
-# trebuie sa mai lucrez la functia asta
-# async def notify_users():
-#     if users:
-#         message = "New user connected"
-#         await asyncio.wait([user.send(message) for user in users])
-
-
-# async def send_users_message(message):
-#     await asyncio.wait([user.send(message) for user in users])
-
-
 async def register(websocket):
     users.add(websocket)
     # await notify_users()

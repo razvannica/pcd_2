@@ -7,11 +7,12 @@ import websockets
 users = set()
 
 
-async def send_message(message):
+async def post(message):
     r"""Posts message to Google Pub/Sub server """
     res = requests.post('http://localhost:6666/pubsub/test', json={"data": message})
     if res.ok:
         return res.json()
+
 
 async def register(websocket):
     users.add(websocket)
@@ -28,11 +29,11 @@ async def handle(websocket, path):
         data = json.loads(message)
         if data["user"] is not None and data["mess"] is None:
             print("User connected :  ", data["user"])
-            await send_message("User " + data["user"] + " now connected.")
+            await post("User " + data["user"] + " now connected.")
 
         if data["mess"] is not None:
             print("Message from " + data["user"] + ":" + data["mess"])
-            await send_message("Message from " + data["user"] + " : " + data["mess"])
+            await post("Message from " + data["user"] + " : " + data["mess"])
 
     await unregister(websocket)
 
